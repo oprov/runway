@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Runway</title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Runway" />
+<meta name="theme-color" content="#1e3d30" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon.svg" />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #efece0;
+    --bg-alt: #e7e3d3;
+    --surface: #faf8ef;
+    --surface-raised: #ffffff;
+    --pine: #1e3d30;
+    --pine-strong: #14281f;
+    --pine-soft: #dde6da;
+    --pine-soft-2: #cddccc;
+    --coral: #de6141;
+    --coral-strong: #c14e30;
+    --coral-soft: #f7ded3;
+    --gold: #c68a34;
+    --ink: #262a21;
+    --muted: #6f7566;
+    --faint: #9a9c8c;
+    --line: #dbd7c5;
+    --line-strong: #c9c4ac;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-sm: 9px;
+    --font-display: "Fraunces", Georgia, serif;
+    --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    padding: 0 16px;
+    padding-block: 20px 64px;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3{ text-wrap: balance; margin: 0; }
+  button{ font-family: inherit; }
+  .wrap{ max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 26px; }
+
+  /* Header */
+  .header{
+    padding: 22px 22px 20px;
+    background: var(--pine);
+    border-radius: var(--radius-lg);
+    color: #f4f1e4;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before{
+    content: "";
+    position: absolute;
+    right: -50px; top: -60px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(222,97,65,0.35), rgba(222,97,65,0) 70%);
+  }
+  .eyebrow{ font-size: 12.5px; color: #b9c4b6; font-weight: 700; position:relative; }
+  .h-title{ font-family: var(--font-display); font-weight: 500; font-size: clamp(28px,7vw,34px); margin: 3px 0 4px; color:#fbf9ee; position:relative; }
+  .h-sub{ font-size: 13.5px; color:#cfd9cd; position:relative; }
+  .runway-bar{
+    margin-top: 16px;
+    position: relative;
+  }
+  .runway-track{ height: 10px; border-radius: 999px; background: rgba(244,241,228,0.16); overflow:hidden; }
+  .runway-fill{ height: 100%; background: linear-gradient(90deg, var(--coral), var(--gold)); border-radius: 999px; }
+  .runway-labels{ display:flex; justify-content: space-between; font-size: 11.5px; color:#b9c4b6; margin-top:6px; font-weight:700; }
+
+  /* Section shell */
+  .section{ display:flex; flex-direction:column; gap:14px; }
+  .section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+  .section-title{ font-family: var(--font-display); font-weight:500; font-size:20px; color:var(--pine-strong); }
+  .section-title .accent{ color: var(--coral-strong); }
+  .section-note{ font-size:12.5px; color:var(--muted); margin-top:-6px; }
+
+  .card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); padding:16px; }
+
+  /* Metric row */
+  .metrics{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+  .metric{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); padding:14px 15px; }
+  .metric .label{ font-size:11.5px; font-weight:700; color:var(--muted); }
+  .metric .value{ font-family:var(--font-display); font-size:24px; font-weight:500; color:var(--pine-strong); margin-top:2px; font-variant-numeric:tabular-nums; }
+  .metric .value.coral{ color: var(--coral-strong); }
+
+  /* Forms */
+  input, select, textarea{
+    font-family: inherit; font-size:14px; padding:9px 11px;
+    border-radius: var(--radius-sm); border:1px solid var(--line-strong);
+    background: var(--surface); color: var(--ink); width:100%;
+  }
+  input:focus, select:focus, textarea:focus{ outline:2px solid var(--pine-soft-2); outline-offset:1px; border-color:var(--pine); }
+  label.f{ font-size:11.5px; font-weight:700; color:var(--muted); display:block; margin-bottom:4px; }
+  .field{ display:flex; flex-direction:column; }
+  .form-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+  .form-grid.three{ grid-template-columns: 1.3fr 1fr 1fr; }
+  @media (max-width:480px){ .form-grid.three{ grid-template-columns: 1fr 1fr; } }
+  .btn-solid{ background:var(--pine); color:#f4f1e4; border:none; padding:10px 18px; border-radius:var(--radius-sm); font-size:13.5px; font-weight:700; cursor:pointer; }
+  .btn-solid:hover{ background:var(--pine-strong); }
+  .btn-coral{ background:var(--coral); color:#fff6f1; border:none; padding:10px 18px; border-radius:var(--radius-sm); font-size:13.5px; font-weight:700; cursor:pointer; }
+  .btn-coral:hover{ background:var(--coral-strong); }
+
+  /* Outreach funnel */
+  .funnel{ display:grid; grid-template-columns: repeat(4,1fr); gap:8px; }
+  .funnel-cell{ background:var(--pine-soft); border-radius:var(--radius-sm); padding:10px 6px; text-align:center; }
+  .funnel-cell .n{ font-family:var(--font-display); font-size:20px; font-weight:500; color:var(--pine-strong); }
+  .funnel-cell .l{ font-size:10px; font-weight:700; color:var(--muted); text-transform:none; margin-top:2px; }
+
+  .streak-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    background: var(--coral-soft); color: var(--coral-strong);
+    padding:6px 12px; border-radius:999px; font-size:12.5px; font-weight:700;
+  }
+  .streak-chip svg{ width:14px; height:14px; }
+
+  /* Lists */
+  .log-list{ display:flex; flex-direction:column; gap:7px; }
+  .log-row{
+    display:flex; align-items:center; gap:10px;
+    background:var(--surface-raised); border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:10px 12px;
+  }
+  .log-row .main{ flex:1; min-width:0; }
+  .log-row .title{ font-size:13.5px; font-weight:700; color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .log-row .sub{ font-size:11.5px; color:var(--muted); margin-top:1px; }
+  .log-row .amt{ font-family:var(--font-display); font-size:16px; font-weight:500; color:var(--pine-strong); font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .status-pill{ font-size:10.5px; font-weight:800; padding:3px 8px; border-radius:999px; white-space:nowrap; }
+  .status-sent{ background:#efe6d3; color:#8a6a1f; }
+  .status-responded{ background:#dfe9f2; color:#2c5a7a; }
+  .status-booked{ background:#e3ddf0; color:#5a3f96; }
+  .status-closed{ background:var(--pine-soft); color:var(--pine-strong); }
+  .status-declined{ background:#f0ddd8; color:var(--coral-strong); }
+  .del-btn{ border:none; background:transparent; color:var(--faint); cursor:pointer; padding:4px; flex-shrink:0; }
+  .del-btn:hover{ color:var(--coral-strong); }
+  .del-btn svg{ width:15px; height:15px; display:block; }
+  .empty-note{ text-align:center; color:var(--muted); font-size:13px; padding:16px; }
+
+  /* Checklist (plan) */
+  .plan-phase{ display:flex; flex-direction:column; gap:8px; }
+  .plan-phase h4{ margin:0; font-family:var(--font-display); font-size:15.5px; font-weight:500; color:var(--pine-strong); }
+  .plan-phase .window{ font-size:11.5px; color:var(--muted); font-weight:700; margin-left:6px; }
+  .plan-item{
+    display:flex; align-items:flex-start; gap:10px;
+    background:var(--surface-raised); border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:10px 12px; cursor:pointer;
+  }
+  .plan-item .box{
+    width:19px; height:19px; border-radius:6px; border:1.5px solid var(--line-strong);
+    flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; color:transparent;
+  }
+  .plan-item.done .box{ background:var(--coral); border-color:var(--coral); color:#fff6f1; }
+  .plan-item.done .txt{ color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line-strong); }
+  .plan-item .box svg{ width:11px; height:11px; }
+  .plan-item .txt{ font-size:13.5px; line-height:1.4; }
+
+  /* Scripts */
+  .script-card{ background:var(--surface-raised); border:1px solid var(--line); border-radius:var(--radius-sm); padding:13px 14px; }
+  .script-card h5{ margin:0 0 6px; font-size:13px; font-weight:800; color:var(--pine-strong); }
+  .script-card p{ margin:0; font-size:13.5px; line-height:1.55; color:var(--ink); white-space:pre-line; }
+  .scripts-wrap{ display:flex; flex-direction:column; gap:10px; }
+  .disclaimer{ font-size:12px; color:var(--muted); background:var(--pine-soft); border-radius:var(--radius-sm); padding:10px 12px; line-height:1.5; }
+
+  footer{ text-align:center; font-size:11.5px; color:var(--faint); padding-top:4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="eyebrow">Junior year · runway before graduation</div>
+    <div class="h-title" id="headerTitle">31 weeks to December</div>
+    <div class="h-sub" id="headerSub">Run rate by mid-Dec: $2,200–$3,200/mo realistic, $3,800–$4,500 good case. Total cash Sept–Dec is a smaller, separate number — track both below.</div>
+    <div class="runway-bar">
+      <div class="runway-track"><div class="runway-fill" id="runwayFill" style="width:0%"></div></div>
+      <div class="runway-labels"><span>Sept</span><span>Oct</span><span>Nov</span><span id="decLabel">Dec</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">This <span class="accent">month</span></div>
+    </div>
+    <div class="metrics">
+      <div class="metric">
+        <div class="label">Income logged</div>
+        <div class="value" id="monthIncome">$0</div>
+      </div>
+      <div class="metric">
+        <div class="label">Monthly target (run rate)</div>
+        <div class="value coral" id="monthTargetDisplay">$500</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="field" style="margin-bottom:10px;">
+        <label class="f">Adjust this month's target</label>
+        <input type="number" id="monthTargetInput" min="0" step="50" />
+      </div>
+      <div class="runway-track" style="margin-bottom:2px;"><div class="runway-fill" id="monthFill" style="width:0%; background:linear-gradient(90deg,var(--coral),var(--pine));"></div></div>
+    </div>
+    <div class="section-note">Run rate is what a given month looks like on its own — it's the number that reads as "did this work." It is NOT the same as total cash in hand, below.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Season <span class="accent">total</span></div>
+    </div>
+    <div class="section-note">Everything ramps. Total cash Sept 15–Dec 31 will look smaller than the monthly run rate above — that's expected, not a sign it's failing. Realistic: $4,500–$7,500. Good case: $9,000–$12,000.</div>
+    <div class="metrics">
+      <div class="metric">
+        <div class="label">Total logged this season</div>
+        <div class="value" id="seasonTotal">$0</div>
+      </div>
+      <div class="metric">
+        <div class="label">Realistic season target</div>
+        <div class="value coral">$4,500–$7,500</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Applications &amp; <span class="accent">leads</span></div>
+      <span class="streak-chip" id="outreachStreak">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1 4-3 5-3 9a3 3 0 0 0 6 0c0-1-.5-2-1-2 1.5 2 2 3.5 2 5a5 5 0 0 1-10 0c0-5 4-6 3-10 1 0 2.5.5 3 3z"/></svg>
+        <span id="outreachStreakN">0</span> week streak
+      </span>
+    </div>
+    <div class="section-note">Job applications, tutoring referrals, platform signups — someone else does the selling on these. Track the volume like a habit anyway.</div>
+    <div class="funnel" id="funnelRow"></div>
+
+    <div class="card">
+      <div class="form-grid three" style="margin-bottom:10px;">
+        <div class="field">
+          <label class="f">What / who</label>
+          <input type="text" id="outContact" placeholder="e.g. UNH InterOperability Lab" maxlength="60" />
+        </div>
+        <div class="field">
+          <label class="f">Type</label>
+          <select id="outChannel">
+            <option>Job / contract application</option>
+            <option>Tutoring referral</option>
+            <option>AI data platform</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="f">Status</label>
+          <select id="outStatus">
+            <option value="sent">Applied / sent</option>
+            <option value="responded">Responded</option>
+            <option value="booked">Interview / trial</option>
+            <option value="closed">Won</option>
+            <option value="declined">Declined</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-coral" id="addOutreachBtn">Log it</button>
+    </div>
+
+    <div class="log-list" id="outreachList"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Income <span class="accent">log</span></div>
+    </div>
+    <div class="card">
+      <div class="form-grid three" style="margin-bottom:10px;">
+        <div class="field">
+          <label class="f">Source</label>
+          <select id="incSource">
+            <option>Part-time technical work</option>
+            <option>Tutoring</option>
+            <option>AI data platform</option>
+            <option>Freelance client work</option>
+            <option>Reselling</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="f">Amount</label>
+          <input type="number" id="incAmount" min="0" step="5" placeholder="120" />
+        </div>
+        <div class="field">
+          <label class="f">Note</label>
+          <input type="text" id="incNote" placeholder="optional" maxlength="60" />
+        </div>
+      </div>
+      <button class="btn-solid" id="addIncomeBtn">Log income</button>
+    </div>
+    <div class="log-list" id="incomeList"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">The <span class="accent">plan</span></div>
+    </div>
+    <div class="section-note">Derived from the research, not a guru's checklist. Check things off as you actually do them.</div>
+    <div class="card" style="gap:18px; display:flex; flex-direction:column;">
+      <div class="plan-phase" id="phase1"></div>
+      <div class="plan-phase" id="phase2"></div>
+      <div class="plan-phase" id="phase3"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Messages that actually <span class="accent">apply</span></div>
+    </div>
+    <div class="disclaimer">These are applications and referral asks, not sales pitches — the point of this plan is to route around cold B2B sales, which the research found is the single biggest reason side-hustles like this fail on a tight timeline.</div>
+    <div class="scripts-wrap">
+      <div class="script-card">
+        <h5>Cold email to a lab / research group / small local employer</h5>
+        <p>Hi [name], I'm a UNH junior studying [major], comfortable with [languages/tools]. I'm looking for part-time or contract technical work this semester — a few hours a week or a defined project. Do you have anything like that, or know who might? Happy to send a resume or a quick sample of work.</p>
+      </div>
+      <div class="script-card">
+        <h5>Asking your network for a tutoring referral</h5>
+        <p>Hey [name] — I'm tutoring [subject] this semester and have a couple of open slots. If you know any high schoolers in Portsmouth/Rye/Exeter/Dover who could use help with [math / CS / test prep], I'd really appreciate an introduction. Happy to do a free first session so the family can see if it's a fit.</p>
+      </div>
+      <div class="script-card">
+        <h5>First message to a tutoring parent</h5>
+        <p>Hi [parent name], I'm a UNH student tutoring [subject] — [referrer] mentioned [student] might be looking for help. I charge $[rate]/hr and can do evenings/weekends. Would a free 20-minute trial session work to see if it's a good fit before committing to anything?</p>
+      </div>
+      <div class="script-card">
+        <h5>Reality check: AI data-labeling platforms</h5>
+        <p>Real, pays weekly, no sales required — but work comes in waves and dries up without warning some weeks, and onboarding requires handing over a government ID (at least one platform has had a data breach). Run 2–3 platforms at once so a dry week on one isn't a dry week on all of them. Treat it as a cash bridge, not a plan.</p>
+      </div>
+      <div class="script-card">
+        <h5>Before you click start on DataAnnotation specifically</h5>
+        <p>The Starter Assessment is ~1 hour and you get exactly one attempt, ever — no retakes, no feedback if you fail. It's the best-paying no-sales option on this whole list ($50–100+/hr on the coding track), so don't burn it half-focused. Pick the coding/STEM track, do it when you're rested and have a quiet hour, not squeezed between classes.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>Everything here stays on this device, in your browser's storage.</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var LS_STATE = "runway_state_v1";
+
+  function fmtMoney(n){ n = n || 0; return "$" + Math.round(n).toLocaleString(); }
+  function fmtDate(d){ var y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,"0"), day=String(d.getDate()).padStart(2,"0"); return y+"-"+m+"-"+day; }
+  function monthKey(dateStr){ return dateStr.slice(0,7); }
+  function isoWeekKey(dateStr){
+    var d = new Date(dateStr+"T00:00:00");
+    var target = new Date(d.valueOf());
+    var dayNr = (d.getDay()+6)%7;
+    target.setDate(target.getDate()-dayNr+3);
+    var firstThursday = new Date(target.getFullYear(),0,4);
+    var diff = (target - firstThursday)/86400000;
+    var week = 1 + Math.round((diff - (3 - (firstThursday.getDay()+6)%7))/7);
+    return target.getFullYear()+"-W"+String(week).padStart(2,"0");
+  }
+
+  var DEFAULT_PLAN = [
+    { phase: "This week · three tracks, all starting in parallel", items: [
+      "TRACK 1 (fastest, ~4 weeks to first dollar): sign up for DataAnnotation, Outlier, and Mercor. DataAnnotation's Starter Assessment is ONE ATTEMPT EVER, no retakes — do it rested, at a desk, not casually at midnight",
+      "TRACK 2 (~4–6 weeks, seasonal urgency is real): message your network for tutoring referrals in Portsmouth/Rye/Exeter/Dover/Stratham — lead with the Nov 7 and Dec 5 SAT dates, both still bookable. Do NOT rely on UNH Knack, it's free to students so it can't be your paying market",
+      "TRACK 3 (~8–10 weeks, mostly pays after December): apply via UNH Workday to the InterOperability Lab (flag that you're 3 semesters from graduation — they prefer 4+, apply anyway and address it directly) and call/email them for the actual pay rate; also apply to Dover/Portsmouth entry-level IT help desk roles ($19.62–$26.49/hr, no experience required)",
+      "Separately and not for this year's income: Summer 2027 internship applications (Google, Amazon, Meta, Microsoft) are open right now and close within weeks — apply for the resume line and the 2027 payoff, expect $0 from these before December",
+      "Log every application/signup in the tracker above, even the ones that go nowhere"
+    ]},
+    { phase: "Weeks 3–10 · late Sept–November", items: [
+      "Run AI data-platform work on all accounts that pass — income is real but drought weeks are common in 2026 and worsening; don't rely on one platform",
+      "Scale to 4–8 tutoring students at $45–$65/hr — November is the seasonal peak (SAT + finals prep), lean into it",
+      "If IT help desk or IOL comes through, expect the actual paycheck 6–8 weeks after you start applying — don't panic if October looks empty",
+      "Do NOT sell class notes or study guides — UNH policy prohibits it and it's a real copyright/DMCA risk (a university just won $75M against a notes-sharing site)",
+      "Do NOT start land flipping, dropshipping, buying a business, or an AI-automation-agency cold-outreach push this semester — checked in depth, none can produce income in this window",
+      "Treat hackathon prizes and bug bounties as occasional bonuses, never as planned income — both are lottery-shaped, not reliable"
+    ]},
+    { phase: "December checkpoint — read this before judging the month", items: [
+      "December is structurally the worst month to score this plan: tutoring collapses (no SAT until March 6, school on break) right as the job track is only 6–8 weeks old",
+      "Watch run rate AND season total separately — run rate $2,200–$3,200/mo realistic, $3,800–$4,500 good case; total cash Sept–Dec is smaller ($4,500–$7,500 realistic) because everything ramped",
+      "If it looks weak in December, re-check in February/March instead — spring semester job hours, A+ cert (if pursued), and the March 6 SAT cycle all land after this checkpoint, not before it",
+      "Leave the $5–25k (plus any family capital) untouched — buying a business needs ~$45–$75k all-in and an operating track record you don't have yet; revisit after a year or two of income/credit history",
+      "Decide next semester's move based on what actually paid, not what sounded good in September"
+    ]}
+  ];
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(LS_STATE);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return null;
+  }
+  function defaultState(){
+    return {
+      monthTargets: { }, // "YYYY-MM": number
+      income: [], // {id, date, source, amount, note}
+      outreach: [], // {id, date, contact, channel, status}
+      planDone: {} // "phaseIdx-itemIdx": true
+    };
+  }
+  var state = load() || defaultState();
+  function save(){ try{ localStorage.setItem(LS_STATE, JSON.stringify(state)); }catch(e){} }
+
+  var today = new Date();
+  var todayKey = fmtDate(today);
+  var thisMonthKey = monthKey(todayKey);
+
+  function defaultTargetForMonth(mKey){
+    // Tutoring peaks in November (SAT Nov 7 + Dec 5 cycles) then falls — school break, no SAT until March.
+    // AI data-platform + IT/help-desk work ramps underneath it and is what keeps December from collapsing.
+    var ramp = { "09": 150, "10": 900, "11": 2400, "12": 2700 };
+    var mm = mKey.slice(5,7);
+    return ramp[mm] != null ? ramp[mm] : 800;
+  }
+  function targetForMonth(mKey){
+    if(state.monthTargets[mKey] != null) return state.monthTargets[mKey];
+    return defaultTargetForMonth(mKey);
+  }
+
+  /* ---------- Header ---------- */
+  function renderHeader(){
+    var seasonStart = new Date(today.getFullYear(), 8, 1); // Sept 1
+    var seasonEnd = new Date(today.getFullYear(), 11, 31); // Dec 31
+    if(today < seasonStart){ seasonStart = new Date(today.getFullYear()-1,8,1); seasonEnd = new Date(today.getFullYear()-1,11,31); }
+    var totalDays = (seasonEnd - seasonStart)/86400000;
+    var elapsed = Math.max(0,(today - seasonStart)/86400000);
+    var weeksLeft = Math.max(0, Math.ceil((seasonEnd - today)/86400000/7));
+    document.getElementById("headerTitle").textContent = weeksLeft + " week" + (weeksLeft===1?"":"s") + " to December";
+    var pct = Math.min(100, Math.max(0, (elapsed/totalDays)*100));
+    document.getElementById("runwayFill").style.width = pct + "%";
+  }
+
+  /* ---------- Month income ---------- */
+  function renderMonth(){
+    var input = document.getElementById("monthTargetInput");
+    input.value = targetForMonth(thisMonthKey);
+    input.oninput = function(){
+      var v = Number(input.value)||0;
+      state.monthTargets[thisMonthKey] = v;
+      save();
+      renderMonth();
+    };
+    var total = state.income.filter(function(e){ return monthKey(e.date)===thisMonthKey; })
+      .reduce(function(s,e){ return s+e.amount; },0);
+    var target = targetForMonth(thisMonthKey);
+    document.getElementById("monthIncome").textContent = fmtMoney(total);
+    document.getElementById("monthTargetDisplay").textContent = fmtMoney(target);
+    var pct = target>0 ? Math.min(100, (total/target)*100) : 0;
+    document.getElementById("monthFill").style.width = pct+"%";
+  }
+
+  function renderSeasonTotal(){
+    var total = state.income.reduce(function(s,e){ return s+e.amount; },0);
+    document.getElementById("seasonTotal").textContent = fmtMoney(total);
+  }
+
+  /* ---------- Income log ---------- */
+  function renderIncomeList(){
+    var list = document.getElementById("incomeList");
+    var entries = state.income.slice().sort(function(a,b){ return b.date.localeCompare(a.date) || b.id-a.id; }).slice(0,25);
+    list.innerHTML = "";
+    if(!entries.length){
+      list.innerHTML = '<div class="empty-note">No income logged yet. Add your first entry above.</div>';
+      return;
+    }
+    entries.forEach(function(e){
+      var row = document.createElement("div");
+      row.className = "log-row";
+      row.innerHTML =
+        '<div class="main"><div class="title">'+escapeHtml(e.source)+(e.note? " — "+escapeHtml(e.note):"")+'</div>'+
+        '<div class="sub">'+e.date+'</div></div>'+
+        '<div class="amt">'+fmtMoney(e.amount)+'</div>'+
+        '<button class="del-btn" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M9 6V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V6m2 0v13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V6h10z"/></svg></button>';
+      row.querySelector(".del-btn").addEventListener("click", function(){
+        state.income = state.income.filter(function(x){ return x.id!==e.id; });
+        save(); renderIncomeList(); renderMonth(); renderSeasonTotal();
+      });
+      list.appendChild(row);
+    });
+  }
+  document.getElementById("addIncomeBtn").addEventListener("click", function(){
+    var source = document.getElementById("incSource").value;
+    var amount = Number(document.getElementById("incAmount").value);
+    var note = document.getElementById("incNote").value.trim();
+    if(!amount || amount<=0) return;
+    state.income.push({ id: Date.now(), date: todayKey, source: source, amount: amount, note: note });
+    save();
+    document.getElementById("incAmount").value = "";
+    document.getElementById("incNote").value = "";
+    renderIncomeList(); renderMonth(); renderSeasonTotal();
+  });
+
+  /* ---------- Outreach funnel ---------- */
+  var STATUS_LABEL = { sent:"Sent", responded:"Responded", booked:"Call booked", closed:"Closed", declined:"Declined" };
+  function escapeHtml(s){ var d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+
+  function renderFunnel(){
+    var counts = { sent:0, responded:0, booked:0, closed:0 };
+    state.outreach.forEach(function(o){
+      if(o.status==="sent") counts.sent++;
+      if(o.status==="responded"||o.status==="booked"||o.status==="closed") counts.responded++;
+      if(o.status==="booked"||o.status==="closed") counts.booked++;
+      if(o.status==="closed") counts.closed++;
+    });
+    var total = state.outreach.length;
+    var row = document.getElementById("funnelRow");
+    var cells = [
+      ["Applied", total],
+      ["Responded", counts.responded],
+      ["Interview/trial", counts.booked],
+      ["Won", counts.closed]
+    ];
+    row.innerHTML = cells.map(function(c){
+      return '<div class="funnel-cell"><div class="n">'+c[1]+'</div><div class="l">'+c[0]+'</div></div>';
+    }).join("");
+  }
+
+  function computeOutreachStreak(){
+    var weeks = {};
+    state.outreach.forEach(function(o){ weeks[isoWeekKey(o.date)] = true; });
+    var cursor = new Date(today);
+    var count = 0;
+    var guard = 0;
+    while(guard++ < 104){
+      var wk = isoWeekKey(fmtDate(cursor));
+      if(weeks[wk]){ count++; cursor.setDate(cursor.getDate()-7); }
+      else {
+        if(count===0 && wk===isoWeekKey(todayKey)){ cursor.setDate(cursor.getDate()-7); continue; }
+        break;
+      }
+    }
+    return count;
+  }
+
+  function renderOutreachList(){
+    var list = document.getElementById("outreachList");
+    var entries = state.outreach.slice().sort(function(a,b){ return b.date.localeCompare(a.date) || b.id-a.id; }).slice(0,30);
+    list.innerHTML = "";
+    if(!entries.length){
+      list.innerHTML = '<div class="empty-note">No outreach logged yet. This is the number that actually matters — log your first one above.</div>';
+    } else {
+      entries.forEach(function(o){
+        var row = document.createElement("div");
+        row.className = "log-row";
+        row.innerHTML =
+          '<div class="main"><div class="title">'+escapeHtml(o.contact)+'</div>'+
+          '<div class="sub">'+o.channel+' · '+o.date+'</div></div>'+
+          '<span class="status-pill status-'+o.status+'">'+STATUS_LABEL[o.status]+'</span>'+
+          '<button class="del-btn" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M9 6V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V6m2 0v13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V6h10z"/></svg></button>';
+        row.querySelector(".del-btn").addEventListener("click", function(){
+          state.outreach = state.outreach.filter(function(x){ return x.id!==o.id; });
+          save(); renderOutreachList(); renderFunnel(); renderStreak();
+        });
+        list.appendChild(row);
+      });
+    }
+  }
+  function renderStreak(){
+    document.getElementById("outreachStreakN").textContent = computeOutreachStreak();
+  }
+  document.getElementById("addOutreachBtn").addEventListener("click", function(){
+    var contact = document.getElementById("outContact").value.trim();
+    var channel = document.getElementById("outChannel").value;
+    var status = document.getElementById("outStatus").value;
+    if(!contact) return;
+    state.outreach.push({ id: Date.now(), date: todayKey, contact: contact, channel: channel, status: status });
+    save();
+    document.getElementById("outContact").value = "";
+    renderOutreachList(); renderFunnel(); renderStreak();
+  });
+
+  /* ---------- Plan checklist ---------- */
+  function renderPlan(){
+    DEFAULT_PLAN.forEach(function(phase, pIdx){
+      var wrap = document.getElementById("phase"+(pIdx+1));
+      var parts = phase.phase.split(" · ");
+      var html = '<h4>'+parts[0]+(parts[1]?'<span class="window">· '+parts[1]+'</span>':'')+'</h4>';
+      phase.items.forEach(function(item, iIdx){
+        var key = pIdx+"-"+iIdx;
+        var done = !!state.planDone[key];
+        html += '<div class="plan-item'+(done?' done':'')+'" data-key="'+key+'">'+
+          '<div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></div>'+
+          '<div class="txt">'+escapeHtml(item)+'</div></div>';
+      });
+      wrap.innerHTML = html;
+      wrap.querySelectorAll(".plan-item").forEach(function(el){
+        el.addEventListener("click", function(){
+          var key = el.getAttribute("data-key");
+          state.planDone[key] = !state.planDone[key];
+          save();
+          renderPlan();
+        });
+      });
+    });
+  }
+
+  /* ---------- Init ---------- */
+  renderHeader();
+  renderMonth();
+  renderSeasonTotal();
+  renderIncomeList();
+  renderFunnel();
+  renderOutreachList();
+  renderStreak();
+  renderPlan();
+
+})();
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "Runway",
+  "short_name": "Runway",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#efece0",
+  "theme_color": "#1e3d30",
+  "description": "Track applications, income, and the plan toward real monthly income.",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
