@@ -182,7 +182,7 @@
   <div class="header">
     <div class="eyebrow">Junior year · runway before graduation</div>
     <div class="h-title" id="headerTitle">31 weeks to December</div>
-    <div class="h-sub" id="headerSub">Run rate by mid-Dec: $2,200–$3,200/mo realistic, $3,800–$4,500 good case. Total cash Sept–Dec is a smaller, separate number — track both below.</div>
+    <div class="h-sub" id="headerSub">Targets below are placeholders until real outreach conversion data replaces them. Acquisition track runs on its own timeline, separate from this number.</div>
     <div class="runway-bar">
       <div class="runway-track"><div class="runway-fill" id="runwayFill" style="width:0%"></div></div>
       <div class="runway-labels"><span>Sept</span><span>Oct</span><span>Nov</span><span id="decLabel">Dec</span></div>
@@ -250,8 +250,9 @@
         <div class="field">
           <label class="f">Type</label>
           <select id="outChannel">
+            <option>Cold outreach</option>
+            <option>Warm network</option>
             <option>Job / contract application</option>
-            <option>Tutoring referral</option>
             <option>AI data platform</option>
             <option>Other</option>
           </select>
@@ -282,10 +283,10 @@
         <div class="field">
           <label class="f">Source</label>
           <select id="incSource">
+            <option>Freelance / agency client work</option>
             <option>Part-time technical work</option>
-            <option>Tutoring</option>
             <option>AI data platform</option>
-            <option>Freelance client work</option>
+            <option>Coaching</option>
             <option>Reselling</option>
             <option>Other</option>
           </select>
@@ -318,21 +319,21 @@
 
   <div class="section">
     <div class="section-head">
-      <div class="section-title">Messages that actually <span class="accent">apply</span></div>
+      <div class="section-title">Outreach <span class="accent">scripts</span></div>
     </div>
-    <div class="disclaimer">These are applications and referral asks, not sales pitches — the point of this plan is to route around cold B2B sales, which the research found is the single biggest reason side-hustles like this fail on a tight timeline.</div>
+    <div class="disclaimer">The sales minor covers the technique better than these ever will — these are just starting structure so the first message goes out today instead of getting rewritten for a week.</div>
     <div class="scripts-wrap">
       <div class="script-card">
-        <h5>Cold email to a lab / research group / small local employer</h5>
-        <p>Hi [name], I'm a UNH junior studying [major], comfortable with [languages/tools]. I'm looking for part-time or contract technical work this semester — a few hours a week or a defined project. Do you have anything like that, or know who might? Happy to send a resume or a quick sample of work.</p>
+        <h5>Do NOT send any of these until the demo actually works</h5>
+        <p>The offer is missed-call text-back. If you can't show it working on your own phone in under 2 minutes, you're not ready to message anyone yet — finish the build first.</p>
       </div>
       <div class="script-card">
-        <h5>Asking your network for a tutoring referral</h5>
-        <p>Hey [name] — I'm tutoring [subject] this semester and have a couple of open slots. If you know any high schoolers in Portsmouth/Rye/Exeter/Dover who could use help with [math / CS / test prep], I'd really appreciate an introduction. Happy to do a free first session so the family can see if it's a fit.</p>
+        <h5>Warm network first (fastest path to a testimonial)</h5>
+        <p>Hey [name] — random ask, but I built a tool that automatically texts back anyone who calls a business and doesn't get an answer, so they don't just hang up and call the next place. Do you or anyone you know run a business that misses calls sometimes? I'll set it up for free in exchange for an honest testimonial after.</p>
       </div>
       <div class="script-card">
-        <h5>First message to a tutoring parent</h5>
-        <p>Hi [parent name], I'm a UNH student tutoring [subject] — [referrer] mentioned [student] might be looking for help. I charge $[rate]/hr and can do evenings/weekends. Would a free 20-minute trial session work to see if it's a good fit before committing to anything?</p>
+        <h5>Cold outreach to a local business</h5>
+        <p>Hi [name], I'm a UNH student — I built a missed-call text-back system that automatically follows up with anyone whose call to your business goes unanswered, so you're not losing them to the next search result. Worth a free 15-minute call to see it and decide if it's worth trying? No pressure either way.</p>
       </div>
       <div class="script-card">
         <h5>Reality check: AI data-labeling platforms</h5>
@@ -369,27 +370,34 @@
   }
 
   var DEFAULT_PLAN = [
-    { phase: "This week · three tracks, all starting in parallel", items: [
-      "TRACK 1 (fastest, ~4 weeks to first dollar): sign up for DataAnnotation, Outlier, and Mercor. DataAnnotation's Starter Assessment is ONE ATTEMPT EVER, no retakes — do it rested, at a desk, not casually at midnight",
-      "TRACK 2 (~4–6 weeks, seasonal urgency is real): message your network for tutoring referrals in Portsmouth/Rye/Exeter/Dover/Stratham — lead with the Nov 7 and Dec 5 SAT dates, both still bookable. Do NOT rely on UNH Knack, it's free to students so it can't be your paying market",
-      "TRACK 3 (~8–10 weeks, mostly pays after December): apply via UNH Workday to the InterOperability Lab (flag that you're 3 semesters from graduation — they prefer 4+, apply anyway and address it directly) and call/email them for the actual pay rate; also apply to Dover/Portsmouth entry-level IT help desk roles ($19.62–$26.49/hr, no experience required)",
-      "Separately and not for this year's income: Summer 2027 internship applications (Google, Amazon, Meta, Microsoft) are open right now and close within weeks — apply for the resume line and the 2027 payoff, expect $0 from these before December",
-      "Log every application/signup in the tracker above, even the ones that go nowhere"
+    { phase: "This week · build before you pitch", items: [
+      "THE OFFER: missed-call text-back for local service businesses (plumbers, salons, contractors) — 85% of callers who don't get an answer never call back; an instant auto-text recovers a real chunk of them. Concrete, provable value, not a vague 'I do automation' pitch",
+      "Sign up for Make.com (free tier, drag-and-drop, no server to manage) — this is the right beginner tool, not n8n, which assumes a developer mindset you don't have yet",
+      "Build a throwaway practice automation first just to learn the tool (form submission → auto-email → log to a spreadsheet) before attempting the real one",
+      "Build the actual demo: missed call → instant text (\"Hi, I just missed your call — how can I help?\"). You'll need a trigger source — Twilio's free trial credit is the standard way to do this without a paying client yet. Follow an existing template, don't build from scratch",
+      "Test it on your own phone until it actually works end to end — do NOT message anyone about this until you can demo it live",
+      "Backup, low-effort, not the focus: sign up for DataAnnotation, Outlier, Mercor as a cash floor. DataAnnotation's Starter Assessment is ONE ATTEMPT EVER, no retakes — do it rested, at a desk, once, then leave it alone",
+      "Parallel, doesn't compete for time: if mom's capital is real and serious, have one actual conversation with an SBA-preferred lender about what a combined application (her capital/credit + your involvement) qualifies for — this is a phone call, not a weekly task",
+      "Not this second: fitness/exercise-science coaching — real fit, needs its own look at the content/posting question before committing time",
+      "Deprioritized, not banned: IT help desk / UNH-IOL applications — fine to submit once and forget, but don't spend recurring weekly time chasing a job when the actual goal is your own clients"
     ]},
-    { phase: "Weeks 3–10 · late Sept–November", items: [
-      "Run AI data-platform work on all accounts that pass — income is real but drought weeks are common in 2026 and worsening; don't rely on one platform",
-      "Scale to 4–8 tutoring students at $45–$65/hr — November is the seasonal peak (SAT + finals prep), lean into it",
-      "If IT help desk or IOL comes through, expect the actual paycheck 6–8 weeks after you start applying — don't panic if October looks empty",
+    { phase: "Weeks 2–10 · demo built, now go get clients", items: [
+      "Once the demo works: list 15–20 people in your warm network (family friends, professors, teammates, past coworkers) who own or know someone who owns a local service business — message all of them, not a few",
+      "Lead with the demo, not the pitch — \"I built a thing that texts back missed calls automatically, want to see it?\" beats any abstract explanation of what automation is",
+      "Log every message the moment you send it, not after — the tracker only works if it's real-time, not a recap",
+      "Outreach is a numbers game before it's a skill game — the sales minor makes you better at the calls you get, it doesn't replace needing enough calls. Track weekly volume, not just wins",
+      "Turn your first client, even underpriced, into a case study immediately — that's what makes the next 10 messages convert better",
+      "Once missed-call text-back is working and sold once, the same Make.com skills extend to adjacent offers (review requests, appointment reminders, lead follow-up) — expand the offer only after the first one is proven, not before",
+      "Run AI data-platform work as background income only — don't let it eat time you'd otherwise spend on the demo or outreach, it has a hard ceiling and client work doesn't",
       "Do NOT sell class notes or study guides — UNH policy prohibits it and it's a real copyright/DMCA risk (a university just won $75M against a notes-sharing site)",
-      "Do NOT start land flipping, dropshipping, buying a business, or an AI-automation-agency cold-outreach push this semester — checked in depth, none can produce income in this window",
+      "Do NOT start land flipping or dropshipping — checked in depth, neither can produce income in this window and both risk real capital",
       "Treat hackathon prizes and bug bounties as occasional bonuses, never as planned income — both are lottery-shaped, not reliable"
     ]},
     { phase: "December checkpoint — read this before judging the month", items: [
-      "December is structurally the worst month to score this plan: tutoring collapses (no SAT until March 6, school on break) right as the job track is only 6–8 weeks old",
-      "Watch run rate AND season total separately — run rate $2,200–$3,200/mo realistic, $3,800–$4,500 good case; total cash Sept–Dec is smaller ($4,500–$7,500 realistic) because everything ramped",
-      "If it looks weak in December, re-check in February/March instead — spring semester job hours, A+ cert (if pursued), and the March 6 SAT cycle all land after this checkpoint, not before it",
-      "Leave the $5–25k (plus any family capital) untouched — buying a business needs ~$45–$75k all-in and an operating track record you don't have yet; revisit after a year or two of income/credit history",
-      "Decide next semester's move based on what actually paid, not what sounded good in September"
+      "Watch run rate AND season total separately — everything here ramps from a September start, so total cash Sept–Dec will look smaller than the monthly run rate, and that's expected",
+      "Client work is the least predictable number in this plan right now — real conversion data from the tracker replaces the placeholder targets, update them as soon as you have a few weeks of real numbers",
+      "Acquisition track is judged separately and on its own timeline — one real lender conversation and a couple of reviewed listings by December counts as progress, not a stalled plan",
+      "Decide next semester's move based on what actually converted, not what sounded good in September"
     ]}
   ];
 
@@ -416,9 +424,10 @@
   var thisMonthKey = monthKey(todayKey);
 
   function defaultTargetForMonth(mKey){
-    // Tutoring peaks in November (SAT Nov 7 + Dec 5 cycles) then falls — school break, no SAT until March.
-    // AI data-platform + IT/help-desk work ramps underneath it and is what keeps December from collapsing.
-    var ramp = { "09": 150, "10": 900, "11": 2400, "12": 2700 };
+    // No tutoring's seasonal peak/collapse anymore — this ramp is AI-platform income (fast, ~4wk)
+    // plus IT/technical work (offer ~4-6wk out) plus outreach-driven client work (slowest, compounds monthly).
+    // Provisional until real outreach conversion data replaces the guess.
+    var ramp = { "09": 150, "10": 1000, "11": 2200, "12": 3000 };
     var mm = mKey.slice(5,7);
     return ramp[mm] != null ? ramp[mm] : 800;
   }
@@ -580,13 +589,20 @@
   });
 
   /* ---------- Plan checklist ---------- */
+  function textKey(s){
+    // Stable key derived from the item's own text, not its position —
+    // survives reordering/inserting plan items without scrambling checkmarks.
+    var h = 0;
+    for(var i=0;i<s.length;i++){ h = ((h<<5)-h+s.charCodeAt(i))|0; }
+    return "t" + h;
+  }
   function renderPlan(){
     DEFAULT_PLAN.forEach(function(phase, pIdx){
       var wrap = document.getElementById("phase"+(pIdx+1));
       var parts = phase.phase.split(" · ");
       var html = '<h4>'+parts[0]+(parts[1]?'<span class="window">· '+parts[1]+'</span>':'')+'</h4>';
       phase.items.forEach(function(item, iIdx){
-        var key = pIdx+"-"+iIdx;
+        var key = textKey(item);
         var done = !!state.planDone[key];
         html += '<div class="plan-item'+(done?' done':'')+'" data-key="'+key+'">'+
           '<div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></div>'+
