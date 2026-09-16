@@ -238,7 +238,7 @@
         <span id="outreachStreakN">0</span> week streak
       </span>
     </div>
-    <div class="section-note">Job applications, tutoring referrals, platform signups — someone else does the selling on these. Track the volume like a habit anyway.</div>
+    <div class="section-note">Client outreach, job applications, platform signups — log the volume like a habit, not just the wins.</div>
     <div class="funnel" id="funnelRow"></div>
 
     <div class="card">
@@ -424,8 +424,8 @@
   var thisMonthKey = monthKey(todayKey);
 
   function defaultTargetForMonth(mKey){
-    // No tutoring's seasonal peak/collapse anymore — this ramp is AI-platform income (fast, ~4wk)
-    // plus IT/technical work (offer ~4-6wk out) plus outreach-driven client work (slowest, compounds monthly).
+    // AI-platform income (fast, ~4wk) plus outreach-driven client work (slowest, compounds monthly
+    // once the demo is built) plus any background IT/technical work.
     // Provisional until real outreach conversion data replaces the guess.
     var ramp = { "09": 150, "10": 1000, "11": 2200, "12": 3000 };
     var mm = mKey.slice(5,7);
